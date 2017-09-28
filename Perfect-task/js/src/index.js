@@ -1,12 +1,12 @@
 define([
-  'jquery', 
-  'carousel', 
+  'jquery',
+  'carousel',
   'goTop',
   'waterfall'
-], function($, Carousel, goTop, WaterFall) {
+], function ($, Carousel, goTop, WaterFall) {
   // carousel
-  var imgSrcList = ['./img/222.jpg', './img/222.jpg', './img/222.jpg']
-  var carousel = new Carousel($('.carousel-container'), imgSrcList, false)
+  // var imgSrcList = ['./img/222.jpg', './img/222.jpg', './img/222.jpg']
+  var carousel = new Carousel($('.slide'))
 
   // goTop
   var goTop = new goTop($('body'))

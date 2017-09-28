@@ -1,4 +1,4 @@
-.carousel-container {
+/* .carousel-container {
   box-sizing: border-box;
 }
 .carousel-container ul, 
@@ -68,4 +68,92 @@
 }
 .carousel-dots .dot.active, .carousel-dots .dot:hover {
     background-color: #717171;
+} */
+
+.slide ul,
+.slide li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.slide {
+  position: relative;
+  width: 1170px;
+  height: 700px;
+  overflow: hidden;
+}
+
+.slide__list {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.slide__list:after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.slide__item {
+  float: left;
+}
+
+.slide__item img {
+  display: block;
+  width: 1170px;
+  height: 700px;
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  margin-top: -30px;
+  display: block;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  color: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.arrow:hover {
+  opacity: 0.5;
+}
+
+.pre {
+  left: 10px;
+}
+
+.next {
+  right: 10px;
+}
+
+.navigation {
+  position: absolute;
+  width: 100%;
+  bottom: 20px;
+  text-align: center;
+  font-size: 0;
+}
+
+.navigation li {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #fff;
+  border-radius: 50%;
+  margin: 0 6px;
+}
+
+.navigation li:hover {
+  cursor: pointer;
+}
+
+.navigation li.active {
+  background: #fff;
 }

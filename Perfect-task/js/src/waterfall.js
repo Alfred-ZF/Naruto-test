@@ -1,4 +1,4 @@
-define(['jquery'], function($) {
+define(['jquery'], function ($) {
   function WaterFall(container) {
     if (typeof container === 'string') {
       this.container = document.querySelector(container)
@@ -10,7 +10,7 @@ define(['jquery'], function($) {
 
   WaterFall.prototype = {
 
-    init: function() {
+    init: function () {
       // 请求内容==》每个数据检测load==》load后生成DOM==》布局
       // 分页数
       this.pageIndex = 0
@@ -18,13 +18,13 @@ define(['jquery'], function($) {
       var loadMore = this.loadMore = document.createElement('button')
       loadMore.classList.add('loadMore')
       loadMore.innerHTML = '加载更多'
-      this.container.appendChild(loadMore)        
+      this.container.appendChild(loadMore)
       this.requestContent(this.getDom)
     },
 
-    listen: function() {
+    listen: function () {
       var _this = this
-      this.loadMore.addEventListener('click', function() {
+      this.loadMore.addEventListener('click', function () {
         if (_this.loading) {
           return
         }
@@ -33,14 +33,15 @@ define(['jquery'], function($) {
       })
     },
 
-    requestContent: function(callback) {
+    requestContent: function (callback) {
       var _this = this
       this.loading = true
       const dataLen = 8
       $.get(
-        '/getCard', 
-        {page: _this.pageIndex}
-      ).done(function(ret) {
+        '/getCard', {
+          page: _this.pageIndex
+        }
+      ).done(function (ret) {
         if (ret && ret.status === 0) {
           // 生成请求数据的DOM结构
           _this.total = ret.data.length
@@ -49,21 +50,21 @@ define(['jquery'], function($) {
           }
           callback.call(_this, ret.data)
           _this.pageIndex++
-          _this.loading = false
+            _this.loading = false
           _this.loadMore.innerHTML = '加载更多'
         } else {
           alert('Get data failed')
         }
-      }).fail(function(ret) {
+      }).fail(function (ret) {
         alert('System error')
       })
     },
 
-    getDom: function(data) {
-      var _this = this     
+    getDom: function (data) {
+      var _this = this
       this.dataCount = 0
 
-      data.forEach(function(item, index) {
+      data.forEach(function (item, index) {
         // get card element
         var card = this.getCardEle(item)
         // check img load
@@ -73,25 +74,25 @@ define(['jquery'], function($) {
       }, this)
     },
 
-    getCardEle: function(item) {
+    getCardEle: function (item) {
       var card = document.createElement('div')
       card.className = 'card item'
-      card.innerHTML = '<a href="#"><img></a><div><h4>'+item.title+'</h4><p>'+item.brif+'</p></div>'
-      return card       
+      card.innerHTML = '<a href="#"><img></a><div><h4>' + item.title + '</h4><p>' + item.brif + '</p></div>'
+      return card
     },
 
-    loadCallback: function(card) {
+    loadCallback: function (card) {
       // append html
       this.container.insertBefore(card, this.loadMore)
       // layout
       this.waterfall(card)
       this.dataCount++
-      if (this.dataCount === this.total) {
-        this.adjustWaterfall()
-      }
+        if (this.dataCount === this.total) {
+          this.adjustWaterfall()
+        }
     },
 
-    waterfall: function(card) {
+    waterfall: function (card) {
       /*
       check数组sortHeight=》N=》firstELe=>_arrangeEl(0,0),i=0
       ==>push到数组firstRow中,top push到sortHeight，
@@ -99,14 +100,14 @@ define(['jquery'], function($) {
                                         =>N=>排序sortHeight
       */
       var move = this.move,
-          col = this.col
+        col = this.col
       if (!this.colsHeight) {
         if (!this.firstRow) {
           //排列第一个元素
           this.col = 1;
           this.setDefault(card)
         } else {
-          if (move*col <= this.widthAll) {
+          if (move * col <= this.widthAll) {
             this.arrangeFirstRow(card)
           } else {
             this.sortHeight()
@@ -119,78 +120,83 @@ define(['jquery'], function($) {
 
     },
 
-    setDefault: function(card) {
+    setDefault: function (card) {
       this.firstRow = []
-      arrangeEl(card, 0,0)
-      this.move = width(card)+margin(card, 'left')+margin(card, 'right')
+      arrangeEl(card, 0, 0)
+      this.move = width(card) + margin(card, 'left') + margin(card, 'right')
       this.widthAll = width(this.container)
       this.firstRow.push(card)
       this.col++
-      //this.colsHeight.push(height(card))
+        //this.colsHeight.push(height(card))
     },
 
-    arrangeFirstRow: function(card) {
-      arrangeEl(card, this.move*(this.col-1), 0)
+    arrangeFirstRow: function (card) {
+      arrangeEl(card, this.move * (this.col - 1), 0)
       this.firstRow.push(card)
       this.col++
     },
 
-    arrangeSmallestCol: function(card) {
+    arrangeSmallestCol: function (card) {
       var colsHeight = this.colsHeight,
-          colEle = colsHeight[0],
-          minIndex = colEle.col,
-          minHeight = colEle.height
-      arrangeEl(card, this.move*(minIndex-1), minHeight)
+        colEle = colsHeight[0],
+        minIndex = colEle.col,
+        minHeight = colEle.height
+      arrangeEl(card, this.move * (minIndex - 1), minHeight)
       this.colsHeight[0].height += height(card)
       sort(this.colsHeight)
     },
 
-    sortHeight: function() {
+    sortHeight: function () {
       this.colsHeight = []
-      this.firstRow.forEach(function(item, index) {
+      this.firstRow.forEach(function (item, index) {
         this.colsHeight.push({
-          col: index+1,
+          col: index + 1,
           height: height(item)
         })
       }, this)
       sort(this.colsHeight)
     },
 
-    adjustWaterfall: function() {
-      var totalHeight = this.colsHeight[this.colsHeight.length-1].height
+    adjustWaterfall: function () {
+      var totalHeight = this.colsHeight[this.colsHeight.length - 1].height
       this.container.style.height = px(totalHeight)
     }
   }
   /********************
-  * private functions
-  ********************/
+   * private functions
+   ********************/
   function arrangeEl(el, left, top) {
-      el.style.position = 'absolute'
-      el.style.left = px(left)
-      el.style.top = px(top)
+    el.style.position = 'absolute'
+    el.style.left = px(left)
+    el.style.top = px(top)
   }
+
   function sort(colsHeight) {
-    colsHeight.sort(function(a, b) {
+    colsHeight.sort(function (a, b) {
       return a.height - b.height
     })
   }
   /******************
-  * helper functions
-  ******************/
+   * helper functions
+   ******************/
   function px(num) {
     return parseFloat(num) + 'px'
   }
+
   function style(el) {
     return window.getComputedStyle(el)
   }
+
   function margin(el, direction) {
-    return parseFloat(style(el)['margin-'+direction]) || 0
+    return parseFloat(style(el)['margin-' + direction]) || 0
   }
+
   function width(el) {
     return parseInt(style(el).width)
   }
+
   function height(el) {
-    return parseInt(style(el).height)+margin(el, 'left')+margin(el, 'right')
+    return parseInt(style(el).height) + margin(el, 'left') + margin(el, 'right')
   }
 
   return WaterFall
