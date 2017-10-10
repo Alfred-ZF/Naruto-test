@@ -9,7 +9,8 @@
   "author": "zf",
   "license": "ISC",
   "dependencies": {
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "webpack": "^3.6.0"
   },
   "devDependencies": {
     "webpack": "^3.6.0"
