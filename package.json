@@ -1,0 +1,17 @@
+{
+  "name": "task38",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./bundle.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zf",
+  "license": "ISC",
+  "dependencies": {
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}
